@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Teachable Machine Boilerplate</title>
 
-		<base href="/1541/">
-
-       <script type="text/javascript">
-       	//FIXME
-        document.head.innerHTML = document.head.innerHTML + "<base href='" + document.location.href + "' />";
+    <base id="changeBase" href="https://math.seattleacademy.org/claytonwiley/day56/index.html">
+    <script type="text/javascript">
+    //FIXME
+    console.log(document.location.href);
+    // document.head.innerHTML = document.head.innerHTML + "<base href='" + document.location.href + "' />";
+    // document.head.innerHTML = document.head.innerHTML + "<base href='https://seattleacademy.software/claytonwiley/day56/index.html' />";
+    // document.write("<base href='http://seattleacademy.software/claytonwiley/day56/index.html' />");
+    //document.getElementById("changeBase").href = "https://seattleacademy.software/claytonwiley/day56/index.html";
     </script>
-</head>
-<body>
 
-	<script src="dist/build.js"></script>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="dist/build.js"></script>
+    <script src="https://seattleacademy.software/claytonwiley/day56/dist/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(function () {
+    var socket = io();
+    $('form').submit(function(e){
+      e.preventDefault(); // prevents page reloading
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+    socket.on('chat message', function(msg){
+      $('#messages').append($('<li>').text(msg));
+    });
+  });
+</script>
 </body>
+
 </html>
